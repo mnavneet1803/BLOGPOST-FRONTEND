@@ -53,7 +53,6 @@ function PostById() {
 
   }
 
-  // console.log("Comment  :  ", comment.AllComments)
 
   let newComment = comment.AllComments
 
@@ -106,11 +105,8 @@ function PostById() {
   const arr1 = []
 
   for (let i = 0; i < titles.length; i++) {
-    // console.log(`/blog/${titles[i].id}`)
     arr1.push({ title: titles[i].title, to: `/blog/${titles[i].id}`, src: `${titles[i].imageUrl}` })
   }
-  // console.log(arr1) 
-  // console.log(titles)
 
 
 
@@ -123,7 +119,7 @@ function PostById() {
         data1 && data1.PostDetails && (
           <Row>
             <Col xs={12} md={8}>
-              <Card  >
+              <Card  style={{ width: '57rem',marginTop:"20px" }}>
                 <Card.Img variant="top" src={data1.PostDetails[0].imageUrl} />
                 <Card.Header>
                   <small className="text-muted">createdAt {data1.PostDetails[0].createdAt}</small>
@@ -166,7 +162,7 @@ function PostById() {
               </Card>
             </Col>
             <Col xs={6} md={4}>
-              <Card style={{ width: '40rem' }}>
+              <Card style={{ width: '35rem' , marginTop:"20px" ,marginLeft:"40px" }}>
                 <Card.Title>Popular Posts</Card.Title>
                 {arr1 && arr1.map((item, index) => {
                   return (

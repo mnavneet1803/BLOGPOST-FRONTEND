@@ -3,8 +3,6 @@ import Form from 'react-bootstrap/Form';
 import { useState } from 'react';
 import { useNavigate } from 'react-router';
 import Container from 'react-bootstrap/Container';
-import Row from 'react-bootstrap/Row';
-import Col from 'react-bootstrap/Col';
 import {getAuthToken} from "./Auth"
 
 function ContactUs() {
@@ -24,7 +22,7 @@ function ContactUs() {
 
     function getContactData(e) {
        
-        if(nameErr===true || emailErr===true ||contentErr==true){
+        if(nameErr===true || emailErr===true ||contentErr===true){
             alert("please fill all details")
             return
         }
@@ -65,7 +63,7 @@ function ContactUs() {
     function nameHandler(e){
         let item = e.target.value
     
-        if(item.length==0){
+        if(item.length===0){
             setNameErr(true)
         }else{
             setNameErr(false)
@@ -76,7 +74,7 @@ function ContactUs() {
     function emailHandler(e){
         let item = e.target.value
        
-        if(item.length==0){
+        if(item.length===0){
             setEmailErr(true)
         }else{
             setEmailErr(false)
@@ -85,7 +83,7 @@ function ContactUs() {
     }
     function contentHandler(e){
         let item = e.target.value
-        if(item.length==0){
+        if(item.length===0){
             setContentErr(true)
         }else{
             setContentErr(false)
@@ -96,9 +94,8 @@ function ContactUs() {
     return (
 
 
-        <Container>
-            <Row>
-                <Col xs={12} md={8}>
+        <Container style={{padding:"120px" }}>
+  
                     <Form onSubmit={getContactData} >
                         <Form.Group className="mb-3" >
                       
@@ -123,9 +120,7 @@ function ContactUs() {
                             Submit
                         </Button>
                     </Form>
-                </Col>
-            </Row>
-
+          
 
         </Container>
 

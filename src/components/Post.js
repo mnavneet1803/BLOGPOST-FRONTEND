@@ -1,10 +1,8 @@
 import Card from 'react-bootstrap/Card';
 import ReadMore from './ReadMore';
 import Container from 'react-bootstrap/Container';
-import Row from 'react-bootstrap/Row';
-import Col from 'react-bootstrap/Col';
 import { Button } from 'react-bootstrap';
-import { Link, useNavigate } from 'react-router-dom';
+import {  useNavigate } from 'react-router-dom';
 import {getAuthToken} from "./Auth"
 function Post(props) {
   const navigate = useNavigate();
@@ -24,7 +22,7 @@ function Post(props) {
     }).then((result) => {
       result.json().then((resp) => {
         console.log(resp.message)
-        if(resp.message=="Admin Required!"){
+        if(resp.message==="Admin Required!"){
           alert("You are not authorized to delete post")
         }
         else{

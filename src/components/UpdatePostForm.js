@@ -4,8 +4,6 @@ import { useState } from 'react';
 import { useParams } from 'react-router';
 import { useNavigate } from 'react-router';
 import Container from 'react-bootstrap/Container';
-import Row from 'react-bootstrap/Row';
-import Col from 'react-bootstrap/Col';
 import { useEffect } from 'react';
 import Axios from "axios";
 import { getAuthToken } from "./Auth"
@@ -92,10 +90,9 @@ function UpdatePostForm() {
 
   return (
 
-    <Container>
+    <Container style={{padding:"120px" }}>
       {data1 && data1.PostDetails && data1.PostDetails.length > 0 && (
-        <Row>
-          <Col xs={12} md={8}>
+    
             <Form onSubmit={getFormData}>
               <Form.Group className="mb-3">
                 <Form.Label>Title</Form.Label><br />
@@ -122,8 +119,7 @@ function UpdatePostForm() {
               </Button>
             </Form>
 
-          </Col>
-        </Row>
+       
       )
       }
 

@@ -3,8 +3,7 @@ import Form from 'react-bootstrap/Form';
 import { useState } from 'react';
 import { useNavigate } from 'react-router';
 import Container from 'react-bootstrap/Container';
-import Row from 'react-bootstrap/Row';
-import Col from 'react-bootstrap/Col';
+
 import {getAuthToken} from "./Auth"
 
 function PostForm() {
@@ -100,9 +99,8 @@ function PostForm() {
   return (
  
 
-    <Container>
-      <Row>
-        <Col xs={12} md={8}>
+    <Container style={{padding:"120px" }}>
+   
     <Form  onSubmit={getFormData} >
       <Form.Group className="mb-3" >
         <Form.Label>Title</Form.Label><br/>
@@ -128,8 +126,7 @@ function PostForm() {
         Submit
       </Button>
     </Form>
-    </Col>
-    </Row>
+    
 
     
       </Container>

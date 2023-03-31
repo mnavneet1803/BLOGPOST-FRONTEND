@@ -3,8 +3,7 @@ import Form from 'react-bootstrap/Form';
 import { useState } from 'react';
 import { useNavigate } from 'react-router';
 import Container from 'react-bootstrap/Container';
-import Row from 'react-bootstrap/Row';
-import Col from 'react-bootstrap/Col';
+
 function SignUp() {
 
     const [name, setName] = useState("")
@@ -57,9 +56,8 @@ function SignUp() {
     return (
 
 
-        <Container>
-            <Row>
-                <Col xs={12} md={8}>
+        <Container style={{padding:"120px" }}>
+          
                     <Form onSubmit={getSignupData}>
                         <Form.Group className="mb-3" >
 
@@ -81,8 +79,7 @@ function SignUp() {
                             Submit
                         </Button>
                     </Form>
-                </Col>
-            </Row>
+           
 
 
         </Container>
