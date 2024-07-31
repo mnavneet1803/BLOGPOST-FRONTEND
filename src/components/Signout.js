@@ -1,14 +1,20 @@
+import React from 'react';
+import { useAuth } from './AuthContext';
+import { useNavigate } from 'react-router';
 
-import { removeAuthToken } from "./Auth"
+function SignOut() {
+  const { signOut } = useAuth();
+  const navigate = useNavigate();
 
+  const handleSignOut = () => {
+    signOut();
+    alert("SignOut successfully");
+    navigate("/");
+  };
 
+  return (
+    <div onClick={handleSignOut}>Sign Out</div>
+  );
+}
 
-function SignOut(){
-    removeAuthToken()
-    alert("SignOut succesfully" )
-  
-}   
-
-
-
-export default SignOut
+export default SignOut;
