@@ -33,30 +33,38 @@ function Post(props) {
       })
     })
   }
+
+
+
+
   return (
-    <Container className='Container'>
+    <div className='col-xl-4 col-lg-4 col-md-6 col-sm-12 d-flex justify-content-center'>
      
 
-          <Card border="info" bg='light' style={{ width: '80rem' , marginTop:"20px" }}>
-            <Card.Img variant="top" src={props.src} />
+          <Card border="1px solid #212529" bg='light' style={{ width: '300px' , marginTop:"20px" ,height:"525px" ,overflow:"hidden"}}>
+            <Card.Img height="300px" variant="top" src={props.src} />
             <Card.Header >
             
-              <small  >createdAt {props.createdAt}</small>
+              <small  >createdAt {props.createdAt.substring(0, 10)}</small>
              
             </Card.Header>
             <Card.Body>
               <Card.Title>{props.title}</Card.Title>
-              <Card.Text>
+              <Card.Text style={{}}>
                 <ReadMore>
-                  {props.content}
+                  {props.content.substring(0, 97)+"..."}
                 </ReadMore>
               </Card.Text>
-              <Button onClick={() => navToPage()} >ReadMore</Button>
-              <Button style={{float:"left"}}  onClick={() => deletePost(props.id)}>Delete Post</Button>
+              <div style={{display:"flex",justifyContent:"space-between"}} >
+              <button  className='btn' style={{color:'#ffffff8c', backgroundColor:'#212529'}} onClick={() => navToPage()}>ReadMore</button>
+              <button  className='btn' style={{color:'#ffffff8c', backgroundColor:'#212529'}} onClick={() => deletePost(props.id)}>Delete Post</button>
+              {/* <Button onClick={() => navToPage()} >ReadMore</Button> */}
+              {/* <Button  onClick={() => deletePost(props.id)}>Delete Post</Button> */}
+              </div>
             </Card.Body>
           </Card>
       
-    </Container>
+    </div>
   );
 }
 
