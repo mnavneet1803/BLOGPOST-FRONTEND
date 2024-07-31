@@ -3,9 +3,9 @@ export function setAuthToken(token) {
   }
   
   export function getAuthToken() {
-    return localStorage.getItem('authToken');
+    return localStorage.getItem('token');
   }
   
   export function removeAuthToken() {
-    localStorage.removeItem('authToken');
+    localStorage.removeItem('token');
   }
