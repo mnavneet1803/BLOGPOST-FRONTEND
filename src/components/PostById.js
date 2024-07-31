@@ -1,7 +1,6 @@
 import Axios from "axios";
 import Card from 'react-bootstrap/Card';
 import Form from 'react-bootstrap/Form';
-
 import { useNavigate } from "react-router";
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
@@ -10,181 +9,121 @@ import { useEffect, useState } from 'react';
 import { useParams } from "react-router";
 import { Button } from "react-bootstrap";
 import { NavLink } from 'react-router-dom';
-import {getAuthToken} from "./Auth"
+import { getAuthToken } from "./Auth";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
-function PostById() {
-  let { id } = useParams()
-
-  const [data1, setData] = useState("")
-  // console.log(id)
-
+ function PostById() {
+  const { id } = useParams();
+  const [data1, setData] = useState([]);
+  const [titles, setTitle] = useState([]);
+  const [comment, setComment] = useState([]);
+  const [content, setContent] = useState("");
+  const [token, setToken] = useState(null);
+  const navigate = useNavigate();
+  // Fetch post data
   useEffect(() => {
-    getData()
-  }, []);
-
-  const getData = () => {
-    return Axios.get(`http://localhost:3004/blog/${id}`)
+    setToken(getAuthToken())
+    Axios.get(`http://localhost:3004/blog/${id}`)
       .then((response) => setData(response.data));
+  }, [id]);
 
-  }
-
-  const [titles, setTitle] = useState("")
+  // Fetch popular post titles
   useEffect(() => {
-    getTitle()
-  }, []);
-  const getTitle = () => {
-    return Axios.get(`http://localhost:3004/blog/popular/posts/title`)
+    Axios.get(`http://localhost:3004/blog/popular/posts/title`)
       .then((response) => setTitle(response.data));
+  }, [id]);
 
-  }
-
-
-
-  const [comment, setComment] = useState("")
-
-
+  // Fetch comments for the post
   useEffect(() => {
-    commentData()
-  }, []);
-
-  const commentData = () => {
-    return Axios.get(`http://localhost:3004/blog/comment/${id}`)
+    Axios.get(`http://localhost:3004/blog/comment/${id}`)
       .then((response) => setComment(response.data));
+  }, [id]);
 
-  }
+  // Function to handle comment submission
+  const handleCommentSubmit = (e) => {
+    e.preventDefault();
+    if (token == null) {
+      toast.error("Please sign in before commenting on any post");
+      return;
+    }
 
-
-  let newComment = comment.AllComments
-
-
-
-  const [content, setContent] = useState()
-
-
-  const url = `http://localhost:3004/blog/create/comment/${id}`
-
-
-  const navToPsge = () => {
-    window.location.replace(`http://localhost:3000/blog/${id}`)
-  }
-
-
-
-  function getCommentData(e) {
-    let token = getAuthToken()
-
-    e.preventDefault()
-
-    console.log("content   : ", content)
-    let comment = { content }
-    fetch(url, {
-      method: "POST",
+    // Post comment data
+    Axios.post(`http://localhost:3004/blog/create/comment/${id}`, { content }, {
       headers: {
         "Accept": "application/json",
         "Content-Type": "application/json",
         'Authorization': `${token}`
-
-      },
-      body: JSON.stringify(comment)
-
-    }).then((result) => {
-      result.json().then((resp) => {
-        console.log("resp   :: ", resp)
-        navToPsge()
-
-
-      })
+      }
     })
-  }
+    .then(() => {
+      toast.success("Comment added successfully!");
+      navigate(`/blog/${id}`);
+    })
+    .catch(error => {
+      toast.error("Failed to add comment.");
+      console.error("Error adding comment:", error);
+    });
+  };
 
-
-  const navigate = useNavigate();
-  const navToPage = () => {
-    navigate(`/blog/update/post/${id}`)
-  }
-  const arr1 = []
-
-  for (let i = 0; i < titles.length; i++) {
-    arr1.push({ title: titles[i].title, to: `/blog/${titles[i].id}`, src: `${titles[i].imageUrl}` })
-  }
-
-
-
+  // Generate popular posts links
+  const popularPosts = titles.map(post => ({
+    title: post.title,
+    to: `/blog/${post.id}`,
+    src: post.imageUrl
+  }));
   return (
-
-
-
-    <Container>
-      {
-        data1 && data1.PostDetails && (
+    <>
+      <ToastContainer />
+      <Container fluid>
+        {data1 && data1.PostDetails && (
           <Row>
-            <Col xs={12} md={8}>
-              <Card  style={{ width: '57rem',marginTop:"20px" }}>
-                <Card.Img variant="top" src={data1.PostDetails[0].imageUrl} />
+            <Col>
+              <Card style={{ width: '40rem', marginTop: "20px" }}>
+                <Card.Img variant="top" height="400px" width="200px" src={data1.PostDetails[0].imageUrl} />
                 <Card.Header>
-                  <small className="text-muted">createdAt {data1.PostDetails[0].createdAt}</small>
+                  <small className="text-muted">Created At: {data1.PostDetails[0].createdAt.substring(0, 10)}</small>
                 </Card.Header>
                 <Card.Body>
-
                   <Card.Title>{data1.PostDetails[0].title}</Card.Title>
                   <Card.Text>
-
                     {data1.PostDetails[0].content}
-
                   </Card.Text>
-                  <Button onClick={() => navToPage()} >update Post</Button>
-
+                  <Button variant="dark" onClick={() => {token==null ? toast.error("Please sign in before Updating on any post"): navigate(`/blog/update/post/${id}`)}}>Update Post</Button>
                 </Card.Body>
 
-                <Card border="secondary" style={{ margin: '20px' }} >
-
-                  {newComment && newComment.map((item, index) => (
+                <Card border="secondary" style={{ margin: '20px' }}>
+                  {comment && comment.AllComments && comment.AllComments.map((item, index) => (
                     <Card.Body key={index}>
-
-                      <Card.Header style={{ float: "left" }}>
-                        comment :{item.content}
-                      </Card.Header>
-
+                      <Card.Header style={{textAlign:"start"}}>Comment: {item.content}</Card.Header>
                     </Card.Body>
                   ))}
                 </Card>
 
-                <Form onSubmit={getCommentData} >
-                  <Form.Group className="mb-3 m-5" controlId="formBasicEmail">
-                    <Form.Label style={{ float: "left" }} > Comment here </Form.Label>
-                    <Form.Control as="textarea" placeholder="Enter Your Comment" onChange={(e) => setContent(e.target.value)} />
+                <Form onSubmit={handleCommentSubmit}>
+                  <Form.Group className="mb-3 m-5" controlId="formBasicComment">
+                    <Form.Label>Comment Here</Form.Label>
+                    <Form.Control as="textarea" placeholder="Enter Your Comment" value={content} onChange={(e) => setContent(e.target.value)} />
                   </Form.Group>
-
-                  <Button variant="primary" style={{ marginRight: "5%" }} type="submit">
-                    Comment
-                  </Button>
+                  <Button variant="dark" type="submit">Comment</Button>
                 </Form>
               </Card>
             </Col>
-            <Col xs={6} md={4}>
-              <Card style={{ width: '35rem' , marginTop:"20px" ,marginLeft:"40px" }}>
+            <Col>
+              <Card style={{ width: '35rem', marginTop: "20px", marginLeft: "40px" }}>
                 <Card.Title>Popular Posts</Card.Title>
-                {arr1 && arr1.map((item, index) => {
-                  return (
-                  
-
-                    <NavLink
-                      key={item.to}
-                      to={item.to}
-                    >
-                      {item.title}
-                    </NavLink>
-                
-                  );
-                })}
+                {popularPosts.map((item, index) => (
+                  <NavLink key={index} to={item.to}>
+                    <div>{item.title}</div>
+                  </NavLink>
+                ))}
               </Card>
             </Col>
           </Row>
-        )
-      }
-    </Container>
-  )
-
+        )}
+      </Container>
+    </>
+  );
 }
 
 export default PostById;
