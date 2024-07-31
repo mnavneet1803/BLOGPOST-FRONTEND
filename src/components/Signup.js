@@ -56,7 +56,8 @@ function SignUp() {
     return (
 
 
-        <Container style={{padding:"120px" }}>
+        // <Container style={{padding:"120px" }}>
+    <Container className=' col-3 ' style={{ marginTop: "10rem" , border:"1px solid black" ,borderRadius:"5px", paddingLeft: "30px",paddingRight: "30px" ,paddingTop: "50px" ,paddingBottom: "50px" }}>
           
                     <Form onSubmit={getSignupData}>
                         <Form.Group className="mb-3" >
@@ -75,9 +76,11 @@ function SignUp() {
                             <Form.Label>Password</Form.Label>
                             <Form.Control type="text" placeholder="Enter Your password" style={{ height: '100px' }} onChange={(e)=>setPassword(e.target.value)} />
                         </Form.Group>
-                        <Button variant="primary" type="submit">
+                        {/* <Button variant="primary" type="submit">
                             Submit
-                        </Button>
+                        </Button> */}
+        <button  className='btn' style={{color:'#ffffff8c', backgroundColor:'#212529'}} type="submit">Submit</button>
+
                     </Form>
            
 
