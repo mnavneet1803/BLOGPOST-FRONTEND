@@ -58,7 +58,9 @@ import 'react-toastify/dist/ReactToastify.css';
     })
     .then(() => {
       toast.success("Comment added successfully!");
-      navigate(`/blog/${id}`);
+      Axios.get(`http://localhost:3004/blog/comment/${id}`)
+      .then((response) => setComment(response.data));
+      setContent("")
     })
     .catch(error => {
       toast.error("Failed to add comment.");
